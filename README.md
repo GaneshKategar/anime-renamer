@@ -1,7 +1,7 @@
 # anime-renamer
 This is to rename anime episodes
 
-This app's main function is to rename the anime episode files names from their original names to the names given to them by the publishers.This is so that you can get more context on what you can expect in the particular epiosde that you are watching and it can sometimes be a spolier for that episode for now this app only lets you rename the file name but in future this will also tell if a anime episode is a filler episode or not within its file name so that you can skip the episodes which are not canon if you want to.
+This app's main function is to rename the anime episode files names from their original names to the names given to them by the publishers.This is so that you can get more context on what you can expect in the particular epiosde that you are watching and it can sometimes be a spolier for that episode for now this app only lets you rename the file name this will also tell if a anime episode is a filler episode or not within its file name so that you can skip the episodes which are not canon if you want to.
 
 
 The Prerequsites
