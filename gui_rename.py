@@ -20,8 +20,6 @@ def Load_anime_id_UI(root):
 
     name_frame = Frame(root)
     
-    # global anime_name_frame
-    # anime_name_frame = None
       
     #Gets data from the MAL-API pyhton package
     def get_anime_id(name):
@@ -29,11 +27,6 @@ def Load_anime_id_UI(root):
         api_id = ''  # Your MAL_API ID
         cli = client.Client(api_id)
                 
-        # global anime_name_frame
-
-        # if anime_name_frame is not None:
-        #     anime_name_frame.destroy()
-
         anime_name_frame = Frame(name_frame)
         #Set the data for the anime selected
         def setAnime(obj):
@@ -191,6 +184,8 @@ def rename():
         get_titles_list()
     else:
         title = anime['name']
+        
+        #os.rename does not want :,? in string when renaming file as it throws error
         while ':' in title:
             title = title.replace(':'," ")
         
@@ -242,19 +237,6 @@ def rename():
             print("Error : ",e)
     
     res.configure(text='Completed Renaming File')
-
-
-# def get_episode_title(url):
-
-#     res = requests.Response(url)
-
-#     if res.status_code!=200:
-#         print("Failed to Connect")
-#         return "Failed to Connect"
-#     else:
-#         data = res.json()
-#         data = data['data']
-        
     
 
 # Gets the titles from the jikan API
@@ -263,18 +245,17 @@ def get_titles_list():
     global episode_data
 
 
-
+    #Get All the Episode Title at Once
     def get_episode_data(url):
 
         response = requests.get(url)
         
         if response.status_code==200:
             data = response.json()
-            data = data['data']
+            data = data['data']     #Parsing to get only Data part from the Returned JSON
             return data
     
         else:
-
             print("Failed to Connect")
             res.configure(text=f'Failed to connect to API Error Code:{response.status_code}')
             Load_rename_UI()
@@ -287,34 +268,17 @@ def get_titles_list():
             return data['mal_id'],data['title'],data['filler']       # only getting data about the episode number(mal_id),title(title),filler(filler)
             
 
-    #Gettings all data at once to remove server problems
+    
     url = f'https://api.jikan.moe/v4/anime/{anime['id']}/episodes/'
 
-    
+    #Gettings all data at once to remove server problems
     episode_title_data = get_episode_data(url)
 
-
-    print(type(episode_title_data))
-    print(episode_title_data)
     # Loop for Fetching and loading data into a list(episode_data) to rename files  
     res.configure(text='Retreving data')
     for i in episode_title_data:
         full_title = ''            # Example shikanoko noko koshitan
-        # Exception used for invalid response from API with status code other than 200 
-        # try:
         epino,title,filler = process_episode_data(i)
-        # except Exception as e:
-        #     print("GELLO Exception")
-        #     print(f"{e}  {type(e)}")
-        #     episode_data.clear()    # clears all data in the episode_data
-        #     return
-
-       
-        # while ':' in title:            #os.rename does not want : in string when renaming file as it throws error
-        #     title = title.replace(':'," ")
-        
-        # while '?' in title:            #os.rename does not want ? in string when renaming file as it throws error
-        #     title = title.replace('?',"!")
         
         if filler:
             full_title += '[Filler]'   #full_title should be like this if filler episdode "[Filler]"
